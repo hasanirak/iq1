@@ -15,132 +15,100 @@
   <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css" />
   <script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
+    /* Same CSS as provided in the previous response */
     body {
       font-family: 'Tajawal', 'Cairo', sans-serif;
-      background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+      background: #ede5c1;
       min-height: 100vh;
       margin: 0;
-      color: #1f2937;
+      color: #184e4e;
       overflow-x: hidden;
     }
     body.dark-mode {
-      background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
-      color: #e5e7eb;
+      background: #1a2f2f;
+      color: #ede5c1;
     }
     .header {
       position: sticky;
       top: 0;
-      background: rgba(255, 255, 255, 0.95);
-      backdrop-filter: blur(10px);
-      padding: 1rem;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      background: rgba(24, 78, 78, 0.95);
+      color: #ede5c1;
+      padding: 1rem 2rem;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
       z-index: 1000;
       display: flex;
       justify-content: space-between;
       align-items: center;
     }
-    body.dark-mode .header {
-      background: rgba(30, 41, 59, 0.95);
+    .sidebar {
+      position: fixed;
+      top: 0;
+      right: 0;
+      width: 250px;
+      height: 100%;
+      background: #184e4e;
+      color: #ede5c1;
+      padding: 1rem;
+      transform: translateX(100%);
+      transition: transform 0.3s ease;
+      z-index: 1001;
+    }
+    .sidebar.open {
+      transform: translateX(0);
+    }
+    .sidebar button {
+      display: block;
+      width: 100%;
+      padding: 0.75rem;
+      margin-bottom: 0.5rem;
+      background: #ede5c1;
+      color: #184e4e;
+      border-radius: 0.5rem;
+      text-align: right;
     }
     .container {
       max-width: 1400px;
       margin: 0 auto;
-      padding: 1.5rem;
-      display: flex;
-      flex-wrap: wrap;
+      padding: 2rem;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
       gap: 1.5rem;
-      justify-content: center;
     }
     .card {
       background: #ffffff;
-      border-radius: 50%;
-      width: 280px;
-      height: 280px;
+      border-radius: 1rem;
       padding: 1.5rem;
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
       text-align: center;
       transition: transform 0.3s ease, box-shadow 0.3s ease;
-      position: relative;
-      overflow: hidden;
     }
     .card:hover {
-      transform: scale(1.05);
-      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.2);
+      transform: translateY(-5px);
+      box-shadow: 0 10px 24px rgba(0, 0, 0, 0.15);
     }
     body.dark-mode .card {
-      background: #1e293b;
+      background: #2a3b3b;
+      color: #ede5c1;
     }
     .card-icon {
       font-size: 2.5rem;
-      color: #3b82f6;
-      margin-bottom: 0.5rem;
+      color: #184e4e;
+      margin-bottom: 0.75rem;
     }
     .card-title {
-      font-size: 1.2rem;
-      font-weight: 700;
+      font-size: 1.25rem;
+      font-weight: 600;
       margin-bottom: 0.5rem;
     }
-    .card-content {
-      font-size: 0.9rem;
-      color: #4b5563;
-      max-height: 100px;
-      overflow-y: auto;
-    }
-    body.dark-mode .card-content {
-      color: #d1d5db;
-    }
     .total-voters {
-      background: #1e3a8a;
-      color: #fff;
-      width: 300px;
-      height: 300px;
-      border-radius: 50%;
+      background: #184e4e;
+      color: #ede5c1;
+      border-radius: 1rem;
       padding: 2rem;
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
       text-align: center;
-    }
-    .bottom-nav {
-      position: fixed;
-      bottom: 1rem;
-      left: 50%;
-      transform: translateX(-50%);
-      background: rgba(255, 255, 255, 0.95);
-      backdrop-filter: blur(10px);
-      border-radius: 2rem;
-      display: flex;
-      padding: 0.5rem 1rem;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-      z-index: 1000;
-    }
-    body.dark-mode .bottom-nav {
-      background: rgba(30, 41, 59, 0.95);
-    }
-    .bottom-nav button {
-      background: none;
-      border: none;
-      color: #1e3a8a;
-      font-size: 1rem;
-      padding: 0.5rem 1rem;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      transition: color 0.2s ease;
-    }
-    body.dark-mode .bottom-nav button {
-      color: #e5e7eb;
-    }
-    .bottom-nav button:hover {
-      color: #3b82f6;
     }
     .modal {
       position: fixed;
@@ -148,7 +116,7 @@
       left: 0;
       right: 0;
       bottom: 0;
-      background: rgba(0, 0, 0, 0.8);
+      background: rgba(0, 0, 0, 0.7);
       display: none;
       align-items: center;
       justify-content: center;
@@ -159,75 +127,76 @@
     }
     .modal-content {
       background: #ffffff;
-      padding: 1.5rem;
+      padding: 2rem;
       border-radius: 1rem;
-      max-width: 90%;
-      width: 500px;
+      max-width: 600px;
+      width: 90%;
       box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
       animation: slideIn 0.3s ease;
     }
     body.dark-mode .modal-content {
-      background: #1e293b;
+      background: #2a3b3b;
+      color: #ede5c1;
     }
     input, select, textarea {
       padding: 0.75rem;
       margin: 0.5rem 0;
       width: 100%;
-      border: 1px solid #d1d5db;
+      border: 1px solid #184e4e;
       border-radius: 0.5rem;
       font-size: 1rem;
-      transition: border-color 0.2s ease;
+      background: #ede5c1;
+      color: #184e4e;
     }
     input:focus, select:focus, textarea:focus {
-      border-color: #3b82f6;
-      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+      border-color: #184e4e;
+      box-shadow: 0 0 0 3px rgba(24, 78, 78, 0.2);
       outline: none;
     }
     body.dark-mode input, body.dark-mode select, body.dark-mode textarea {
-      background: #374151;
-      color: #e5e7eb;
-      border-color: #4b5563;
+      background: #3a4b4b;
+      color: #ede5c1;
+      border-color: #ede5c1;
     }
     button {
       padding: 0.75rem 1.5rem;
       border: none;
       border-radius: 0.5rem;
       cursor: pointer;
+      background: #184e4e;
+      color: #ede5c1;
       font-size: 1rem;
       transition: background 0.2s ease, transform 0.2s ease;
     }
     button:hover {
+      background: #2a3b3b;
       transform: translateY(-2px);
     }
     table {
       width: 100%;
       border-collapse: collapse;
-      font-size: 0.9rem;
       background: #ffffff;
       border-radius: 0.5rem;
-      overflow: hidden;
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     }
     body.dark-mode table {
-      background: #1e293b;
+      background: #2a3b3b;
     }
     th, td {
-      padding: 0.75rem;
+      padding: 1rem;
       text-align: right;
-      border-bottom: 1px solid #e5e7eb;
+      border-bottom: 1px solid #ede5c1;
     }
     th {
-      background: #f1f5f9;
+      background: #184e4e;
+      color: #ede5c1;
       font-weight: 600;
     }
-    body.dark-mode th {
-      background: #374151;
-    }
-    tr:hover {
-      background: #f3f4f6;
-    }
-    body.dark-mode tr:hover {
-      background: #374151;
+    .invalid-voter-number {
+      background: #ef4444;
+      color: #ffffff;
+      border-radius: 0.25rem;
+      padding: 0.2rem 0.5rem;
     }
     #map {
       height: 400px;
@@ -242,21 +211,19 @@
       position: fixed;
       top: 1rem;
       left: 1rem;
-      padding: 0.75rem 1.5rem;
+      padding: 1rem 2rem;
       border-radius: 0.5rem;
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
       z-index: 1000;
       display: none;
-      color: #fff;
+      color: #ede5c1;
+      background: #184e4e;
       animation: slideIn 0.3s ease;
     }
     .notification.show {
       display: flex;
       align-items: center;
       gap: 0.5rem;
-    }
-    .notification.success {
-      background: #22c55e;
     }
     .notification.error {
       background: #ef4444;
@@ -267,9 +234,9 @@
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
-      background: rgba(0, 0, 0, 0.7);
-      color: #fff;
-      padding: 0.75rem 1.5rem;
+      background: rgba(24, 78, 78, 0.8);
+      color: #ede5c1;
+      padding: 1rem 2rem;
       border-radius: 0.5rem;
       z-index: 1000;
       animation: pulse 1.5s infinite;
@@ -279,41 +246,22 @@
       color: #fff;
       padding: 0.5rem;
       border-radius: 0.5rem;
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
-    .whatsapp-btn:hover {
-      background: #20b358;
     }
     .delete-btn {
       background: #ef4444;
       color: #fff;
       padding: 0.5rem;
       border-radius: 0.5rem;
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
-    .delete-btn:hover {
-      background: #dc2626;
-    }
-    .form-container iframe {
-      width: 100%;
-      height: 450px;
-      border-radius: 0.5rem;
-      border: 1px solid #1e3a8a;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     }
     .full-width-card {
-      width: 100%;
-      border-radius: 1rem;
+      grid-column: span 2;
       background: #ffffff;
-      padding: 1.5rem;
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+      padding: 2rem;
+      border-radius: 1rem;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
     }
     body.dark-mode .full-width-card {
-      background: #1e293b;
+      background: #2a3b3b;
     }
     @keyframes slideIn {
       from { transform: translateY(-20px); opacity: 0; }
@@ -326,68 +274,36 @@
     }
     @media (max-width: 768px) {
       .container {
+        grid-template-columns: 1fr;
         padding: 1rem;
-        flex-direction: column;
-        align-items: center;
       }
-      .card {
-        width: 240px;
-        height: 240px;
-      }
-      .total-voters {
-        width: 260px;
-        height: 260px;
-      }
-      .form-container iframe {
-        height: 400px;
-      }
-      table {
-        font-size: 0.8rem;
-      }
-      th, td {
-        padding: 0.5rem;
-      }
-      .bottom-nav {
-        width: 90%;
-        flex-wrap: wrap;
-        justify-content: center;
-        gap: 0.5rem;
-      }
-    }
-    @media (max-width: 320px) {
-      .card {
-        width: 200px;
-        height: 200px;
-      }
-      .total-voters {
-        width: 220px;
-        height: 220px;
-      }
-      .card-title {
-        font-size: 1rem;
-      }
-      .card-content {
-        font-size: 0.8rem;
+      .sidebar {
+        width: 100%;
       }
     }
   </style>
 </head>
 <body>
+  <!-- Same HTML structure as in the previous response -->
   <div id="loginContainer" class="modal show">
     <div class="modal-content">
       <h2 class="text-xl font-bold text-center mb-4"><i class="fas fa-lock mr-2"></i>تسجيل الدخول</h2>
       <input id="loginCode" type="password" placeholder="أدخل رمز الدخول" class="mb-4">
-      <button class="bg-blue-600 text-white w-full" onclick="checkLogin()">تسجيل الدخول</button>
+      <button onclick="checkLogin()">تسجيل الدخول</button>
     </div>
   </div>
   <div class="header">
     <h1 class="text-2xl font-bold flex items-center gap-2">
       <i class="fas fa-vote-yea"></i> إدارة الناخبين - أحمد الشيباني
     </h1>
-    <div class="flex gap-2">
-      <button class="bg-blue-600 text-white px-3 py-1 rounded-lg" onclick="fetchData()"><i class="fas fa-sync-alt mr-2"></i>تحديث</button>
-      <button class="bg-green-600 text-white px-3 py-1 rounded-lg" onclick="openBulkMessageModal()"><i class="fab fa-whatsapp mr-2"></i>رسالة جماعية</button>
-    </div>
+    <button class="bg-ede5c1 text-184e4e px-3 py-1 rounded-lg" onclick="toggleSidebar()"><i class="fas fa-bars"></i></button>
+  </div>
+  <div class="sidebar" id="sidebar">
+    <button onclick="fetchData()"><i class="fas fa-sync-alt mr-2"></i>تحديث</button>
+    <button onclick="openBulkMessageModal()"><i class="fab fa-whatsapp mr-2"></i>رسالة جماعية</button>
+    <button onclick="toggleDarkMode()"><i class="fas fa-moon mr-2"></i>الوضع الليلي</button>
+    <button onclick="exportToExcel()"><i class="fas fa-file-excel mr-2"></i>تصدير Excel</button>
+    <button onclick="logout()"><i class="fas fa-sign-out-alt mr-2"></i>تسجيل خروج</button>
   </div>
   <div class="container">
     <div class="total-voters">
@@ -397,40 +313,30 @@
     <div class="card">
       <i class="fas fa-plus-circle card-icon"></i>
       <h3 class="card-title">إضافة ناخب</h3>
-      <div class="card-content">
-        <button class="bg-blue-600 text-white px-3 py-1 rounded" onclick="openAddVoterModal()">إضافة عبر النموذج</button>
-      </div>
+      <button onclick="openAddVoterModal()">إضافة عبر النموذج</button>
     </div>
     <div class="card">
       <i class="fas fa-search card-icon"></i>
       <h3 class="card-title">بحث وتصفية</h3>
-      <div class="card-content">
-        <input type="text" id="searchInput" placeholder="ابحث..." class="w-full text-sm">
-        <select id="addressFilter" class="w-full text-sm mt-2">
-          <option value="">جميع المناطق</option>
-        </select>
-      </div>
+      <input type="text" id="searchInput" placeholder="ابحث..." class="w-full text-sm">
+      <select id="addressFilter" class="w-full text-sm mt-2">
+        <option value="">جميع المناطق</option>
+      </select>
     </div>
     <div class="card">
       <i class="fas fa-map-marked-alt card-icon"></i>
       <h3 class="card-title">خريطة الناخبين</h3>
-      <div class="card-content">
-        <button class="bg-blue-600 text-white px-3 py-1 rounded" onclick="toggleMap()">عرض/إخفاء الخريطة</button>
-      </div>
+      <button onclick="toggleMap()">عرض/إخفاء الخريطة</button>
     </div>
     <div class="card">
       <i class="fas fa-exclamation-triangle card-icon"></i>
       <h3 class="card-title">التكرارات</h3>
-      <div class="card-content">
-        <button class="bg-blue-600 text-white px-3 py-1 rounded" onclick="toggleDuplicatesSection()">عرض/إخفاء</button>
-      </div>
+      <button onclick="toggleDuplicatesSection()">عرض/إخفاء</button>
     </div>
     <div class="card">
       <i class="fas fa-bug card-icon"></i>
       <h3 class="card-title">الأخطاء</h3>
-      <div class="card-content">
-        <button class="bg-blue-600 text-white px-3 py-1 rounded" onclick="toggleInvalidVoterNumbersSection()">عرض/إخفاء</button>
-      </div>
+      <button onclick="toggleInvalidVoterNumbersSection()">عرض/إخفاء</button>
     </div>
     <div class="full-width-card">
       <h3 class="text-xl font-semibold mb-4"><i class="fas fa-users mr-2"></i>بيانات الناخبين</h3>
@@ -451,11 +357,11 @@
         </table>
       </div>
       <div class="flex justify-center gap-4 mt-4">
-        <button id="prevPage" class="bg-blue-600 text-white px-3 py-1 rounded disabled:bg-gray-400"><i class="fas fa-chevron-right"></i></button>
-        <button id="nextPage" class="bg-blue-600 text-white px-3 py-1 rounded disabled:bg-gray-400"><i class="fas fa-chevron-left"></i></button>
+        <button id="prevPage" class="disabled:bg-gray-400"><i class="fas fa-chevron-right"></i></button>
+        <button id="nextPage" class="disabled:bg-gray-400"><i class="fas fa-chevron-left"></i></button>
       </div>
     </div>
-    <div class="full-width-card" id="mapContainer">
+    <div class="full-width-card hidden" id="mapContainer">
       <div id="map"></div>
     </div>
     <div class="full-width-card hidden" id="duplicatesSection">
@@ -491,17 +397,11 @@
       </div>
     </div>
   </div>
-  <div class="bottom-nav">
-    <button onclick="toggleDarkMode()"><i class="fas fa-moon"></i> الوضع الليلي</button>
-    <button onclick="openBulkMessageModal()"><i class="fab fa-whatsapp"></i> رسالة جماعية</button>
-    <button onclick="exportToExcel()"><i class="fas fa-file-excel"></i> تصدير Excel</button>
-    <button onclick="logout()"><i class="fas fa-sign-out-alt"></i> تسجيل خروج</button>
-  </div>
   <div id="addVoterModal" class="modal">
     <div class="modal-content form-container">
       <h3 class="text-xl font-semibold mb-4"><i class="fas fa-plus-circle mr-2"></i>إضافة ناخب جديد</h3>
       <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSc3q6y2F3zP2lFVgjXqj-gV5X0By9AKILxvEoWRNsAZ743oOg/viewform?embedded=true" frameborder="0">جارٍ التحميل...</iframe>
-      <button class="mt-4 bg-gray-500 text-white w-full" onclick="closeAddVoterModal()">إغلاق</button>
+      <button class="mt-4 bg-gray-500" onclick="closeAddVoterModal()">إغلاق</button>
     </div>
   </div>
   <div id="editModal" class="modal">
@@ -509,15 +409,15 @@
       <h3 class="text-xl font-semibold mb-4"><i class="fas fa-edit mr-2"></i>تعديل بيانات</h3>
       <input id="editTimestamp" type="text" readonly>
       <input id="editName" type="text" placeholder="الاسم">
-      <input id="editPhone" type="text" placeholder="رقم الهاتف (964+)" pattern="\+964[0-9]{9}">
+      <input id="editPhone" type="text" placeholder="رقم الهاتف (+964)" pattern="\+964[0-9]{9}">
       <input id="editVoterNumber" type="text" placeholder="رقم الناخب (8 أرقام)" pattern="[0-9]{8}">
       <input id="editAddress" type="text" placeholder="العنوان">
       <input id="editIntroducer" type="text" placeholder="الشخص المعرف">
       <textarea id="editNotes" placeholder="ملاحظات" rows="4"></textarea>
       <input id="editRow" type="hidden">
       <div class="flex justify-end gap-2 mt-4">
-        <button class="bg-gray-500 text-white" onclick="closeEditModal()">إلغاء</button>
-        <button class="bg-blue-600 text-white" onclick="confirmSaveEdit()">حفظ</button>
+        <button class="bg-gray-500" onclick="closeEditModal()">إلغاء</button>
+        <button onclick="confirmSaveEdit()">حفظ</button>
       </div>
     </div>
   </div>
@@ -526,8 +426,8 @@
       <h3 class="text-xl font-semibold mb-4"><i class="fas fa-exclamation-circle mr-2"></i>تأكيد الحذف</h3>
       <p id="deleteConfirmMessage"></p>
       <div class="flex justify-end gap-2 mt-4">
-        <button class="bg-gray-500 text-gray-800" onclick="closeDeleteModal()">إلغاء</button>
-        <button class="confirmDeleteBtn bg-red-600 text-white" onclick="confirmDelete()">حذف</button>
+        <button class="bg-gray-500" onclick="closeDeleteModal()">إلغاء</button>
+        <button class="bg-red-600 confirmDeleteBtn" onclick="confirmDelete()">حذف</button>
       </div>
     </div>
   </div>
@@ -550,9 +450,9 @@
         <option value="عاجل">ملاحظات عاجلة</option>
       </select>
       <textarea id="bulkMessageText" class="w-full h-24" placeholder="أدخل نص الرسالة..."></textarea>
-      <div class="flex justify-end gap-2px mt-4">
-        <button class="bg-gray-500 text-white" onclick="closeBulkMessageModal()">إلغاء</button>
-        <button class="bg-green-600 text-white" onclick="sendBulkMessages()">إرسال</button>
+      <div class="flex justify-end gap-2 mt-4">
+        <button class="bg-gray-500" onclick="closeBulkMessageModal()">إلغاء</button>
+        <button class="bg-green-600" onclick="sendBulkMessages()">إرسال</button>
       </div>
     </div>
   </div>
@@ -564,10 +464,10 @@
     let isLoggedIn = false;
     let sentMessages = new Set();
     const baghdadRegions = {
-      'الكرخ': { lat: 33.34, lng: 44.355, color: '#3b82f6' },
-      'الرصافة': { lat: 33.47, lng: 44.305, color: '#1e3a8a' },
-      'المنصور': { lat: 33.178, lng: 44.347, color: '#93c5fd' },
-      'غير محددد': { lat: 33.52, lng: 44.61, color: '#6b7280' }
+      'الكرخ': { lat: 33.34, lng: 44.355, color: '#184e4e' },
+      'الرصافة': { lat: 33.47, lng: 44.305, color: '#2a3b3b' },
+      'المنصور': { lat: 33.178, lng: 44.347, color: '#ede5c1' },
+      'غير محدد': { lat: 33.52, lng: 44.61, color: '#6b7280' }
     };
 
     function checkLogin() {
@@ -595,7 +495,11 @@
       n.querySelector('#notificationMessage').textContent = msg;
       n.querySelector('#notificationIcon').classList = `${icon} mr-2`;
       n.classList = `notification ${type} show`;
-      setTimeout(() => n.classList.remove('show'), 3000);
+      setTimeout(() => n.classList.remove('show'), 4000);
+    }
+
+    function toggleSidebar() {
+      document.getElementById('sidebar').classList.toggle('open');
     }
 
     function toggleDarkMode() {
@@ -638,15 +542,15 @@
       document.getElementById('addVoterModal').classList.remove('show');
     }
 
-    async function openDeleteModal(row, type, value) {
+    function openDeleteModal(row, type, value) {
       if (!isLoggedIn) return;
       selectedRow = row;
-      document.querySelector('#deleteConfirmMessage').textContent = `هل أتريد حذف ${type}؟: ${value}؟`;
+      document.getElementById('deleteConfirmMessage').textContent = `هل أنت متأكد من حذف ${type}: ${value}؟`;
       document.getElementById('deleteModal').classList.add('show');
     }
 
     function closeDeleteModal() {
-      document.getElementById('deleteModal').classList.classList.remove('show');
+      document.getElementById('deleteModal').classList.remove('show');
       selectedRow = null;
     }
 
@@ -655,7 +559,7 @@
       document.getElementById('loading').style.display = 'block';
       try {
         const data = { action: 'delete', row: selectedRow };
-        const res = await fetch('https://script.google.com/macros/s/AKfycbynRwcUnSk1kLUke5SOnn8ggyFAmCgUai3eZlipzG-N9zkLQsqB726nPg3uI1R8TPeY9/exec', {
+        const res = await fetch('https://script.google.com/macros/s/AKfycbynRcwUnS1kLUke5SOnn8ggyFAmCgUai3eZlipzG-N9zkLQsqB726nPg3uI1R8TPeY9/exec', {
           method: 'POST',
           body: JSON.stringify(data)
         });
@@ -665,10 +569,9 @@
         closeDeleteModal();
         fetchData();
       } catch (e) {
-        showNotification('خطأ في الحذف: ' + e.message + ' 🚫طأ', 'error', 'fas fa-exclamation-circle');
+        showNotification('خطأ في الحذف: ' + e.message + ' 🚫', 'error', 'fas fa-exclamation-circle');
       }
       document.getElementById('loading').style.display = 'none';
-      closeDeleteModal();
     }
 
     async function fetchData() {
@@ -693,10 +596,10 @@
         populateTable();
         populateFilters();
         updateDuplicatesTable();
-        updateInvalidVotersNumbers();
-        showNotification('تم جلب البيانات! ✅', 'success', 'فاص fa-check-circle');
+        updateInvalidVoterNumbers();
+        showNotification('تم جلب البيانات! ✅', 'success', 'fas fa-check-circle');
       } catch (e) {
-        showNotification('خطأ في جلب البيانات! 😒🚫: ' + e.message1, 'error', 'fas fa-exclamation-circle');
+        showNotification('خطأ في جلب البيانات: ' + e.message + ' 🚫', 'error', 'fas fa-exclamation-circle');
       }
       document.getElementById('loading').style.display = 'none';
     }
@@ -725,10 +628,11 @@
       filteredData.slice(start, end).forEach(v => {
         const maskedPhone = v.phone.length > 4 ? v.phone.slice(0, -4) + '****' : v.phone;
         const whatsappNumber = normalizePhoneForWhats(v.phone);
+        const isInvalidVoterNumber = v.voterNumber && v.voterNumber.replace(/[^\d]/g, '').length !== 8;
         table.innerHTML += `
           <tr>
             <td>${DOMPurify.sanitize(v.name)}</td>
-            <td>${sanitize(v.voterNumber)}</td>
+            <td class="${isInvalidVoterNumber ? 'invalid-voter-number' : ''}">${sanitize(v.voterNumber)}</td>
             <td>${sanitize(maskedPhone)}</td>
             <td>${sanitize(v.address)}</td>
             <td>${sanitize(v.introducer)}</td>
@@ -740,7 +644,7 @@
             </td>
           </tr>`;
       });
-      document.getElementById('prevPage').disabled = true;
+      document.getElementById('prevPage').disabled = currentPage === 1;
       document.getElementById('nextPage').disabled = end >= filteredData.length;
     }
 
@@ -755,12 +659,15 @@
     function updateDuplicatesTable() {
       const duplicatesTable = document.getElementById('duplicatesTable');
       duplicatesTable.innerHTML = '';
-      const duplicates = {};
+      const duplicates = [];
       ['voterNumber', 'phone', 'name'].forEach(field => {
         const counts = {};
         votersData.forEach(v => {
           const value = v[field];
-          if (value) counts[value] = (counts[value] || []).push(v);
+          if (value) {
+            counts[value] = counts[value] || [];
+            counts[value].push(v);
+          }
         });
         Object.entries(counts).forEach(([key, voters]) => {
           if (voters.length > 1) {
@@ -775,6 +682,7 @@
       });
       duplicates.forEach(d => {
         const names = d.voters.map(v => sanitize(v.name)).join(', ');
+        const isInvalidVoterNumber = d.type === 'رقم الناخب' && d.value.replace(/[^\d]/g, '').length !== 8;
         const actions = d.voters.map(v => {
           const whatsappNumber = normalizePhoneForWhats(v.phone);
           return `
@@ -785,7 +693,7 @@
         duplicatesTable.innerHTML += `
           <tr>
             <td>${sanitize(d.type)}</td>
-            <td>${sanitize(d.value)}</td>
+            <td class="${isInvalidVoterNumber ? 'invalid-voter-number' : ''}">${sanitize(d.value)}</td>
             <td>${d.count}</td>
             <td>${names}</td>
             <td>${actions}</td>
@@ -798,7 +706,7 @@
       }
     }
 
-    function updateInvalidVotersNumbers() {
+    function updateInvalidVoterNumbers() {
       const invalidTable = document.getElementById('invalidVoterNumbersTable');
       invalidTable.innerHTML = '';
       const invalidVoters = votersData.filter(v => v.voterNumber && v.voterNumber.replace(/[^\d]/g, '').length !== 8);
@@ -807,15 +715,18 @@
         invalidTable.innerHTML += `
           <tr>
             <td>${sanitize(v.name)}</td>
-            <td>${sanitize(v.voterNumber)}</td>
+            <td class="invalid-voter-number">${sanitize(v.voterNumber)}</td>
             <td>
               <button class="bg-blue-500 text-white px-2 py-1 rounded" onclick="openEditModal(${v.row}, '${sanitize(v.timestamp)}', '${sanitize(v.name)}', '${sanitize(v.phone)}', '${sanitize(v.voterNumber)}', '${sanitize(v.address)}', '${sanitize(v.introducer)}', '${sanitize(v.notes)}')"><i class="fas fa-edit"></i></button>
-              <a href="https://wa.me/${whatsappNumber}?text=مرحباً ${sanitize(v.name)}، رقم الناخب (${sanitize(v.voterNumber)}) غير صحيح، يرجى التحقق." target="_blank" class="whatsapp-btn ml-2"><i class="fab fa-whatsapp"></i></a>
+              <a href="https://wa.me/${whatsappNumber}?text=مرحباً ${sanitize(v.name)}، رقم الناخب (${sanitize(v.voterNumber)}) غير صحيح، يرجى التحقق." target="_blank" class="whatsapp-btn ml-2"><i class="fab fa-whatsapp"></i> إرسال تنبيه</a>
+              <button class="delete-btn ml-2" onclick="openDeleteModal(${v.row}, 'رقم الناخب', '${sanitize(v.voterNumber)}')"><i class="fas fa-trash"></i></button>
             </td>
           </tr>`;
       });
       if (invalidVoters.length === 0) {
         invalidTable.innerHTML = '<tr><td colspan="3" class="text-center">لا توجد أرقام خاطئة</td></tr>';
+      } else {
+        showNotification(`تم العثور على ${invalidVoters.length} أرقام ناخبين غير صحيحة!`, 'error', 'fas fa-exclamation-triangle');
       }
     }
 
