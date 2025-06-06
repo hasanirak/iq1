@@ -1,414 +1,1007 @@
 <!DOCTYPE html>
-<html dir="rtl" lang="ar">
+<html lang="ar" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>نظام تسجيل الناخبين - د. اكتفاء الحسناوي</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        :root {
-            --primary: #6366f1;
-            --secondary: #4f46e5;
-            --success: #22c55e;
-            --danger: #ef4444;
-            --warning: #f59e0b;
-            --whatsapp: #25D366;
-            --background: #f8fafc;
-        }
-
-        * {
-            box-sizing: border-box;
-            font-family: 'Cairo', sans-serif;
-            margin: 0;
-            padding: 0;
-        }
-
-        body {
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            min-height: 100vh;
-            padding: 2rem;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            background: rgba(255, 255, 255, 0.95);
-            border-radius: 20px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-            padding: 2rem;
-            backdrop-filter: blur(8px);
-        }
-
-        .header {
-            text-align: center;
-            margin-bottom: 2rem;
-            padding: 2rem;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            border-radius: 15px;
-            color: white;
-            box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
-        }
-
-        .form-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2rem;
-            margin-bottom: 2rem;
-        }
-
-        .form-group {
-            background: rgba(255, 255, 255, 0.1);
-            padding: 1.5rem;
-            border-radius: 15px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-            transition: transform 0.3s ease;
-        }
-
-        .form-group:hover {
-            transform: translateY(-5px);
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 0.8rem;
-            color: var(--secondary);
-            font-weight: 600;
-        }
-
-        input, select {
-            width: 100%;
-            padding: 1rem;
-            border: 2px solid rgba(99, 102, 241, 0.2);
-            border-radius: 10px;
-            font-size: 1rem;
-            transition: all 0.3s ease;
-        }
-
-        input:focus, select:focus {
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
-            outline: none;
-        }
-
-        .btn {
-            padding: 1rem 2rem;
-            border: none;
-            border-radius: 10px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.8rem;
-        }
-
-        .btn-primary {
-            background: var(--primary);
-            color: white;
-        }
-
-        .btn-danger {
-            background: var(--danger);
-            color: white;
-        }
-
-        .btn-whatsapp {
-            background: var(--whatsapp);
-            color: white;
-            padding: 0.5rem;
-            border-radius: 50%;
-            width: 35px;
-            height: 35px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-        }
-
-        .actions {
-            display: flex;
-            gap: 1rem;
-            margin: 2rem 0;
-            flex-wrap: wrap;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: separate;
-            border-spacing: 0;
-            margin-top: 2rem;
-        }
-
-        th, td {
-            padding: 1rem;
-            text-align: right;
-            border: 1px solid #e2e8f0;
-        }
-
-        th {
-            background: var(--primary);
-            color: white;
-            font-weight: 600;
-            cursor: pointer;
-        }
-
-        tbody tr:hover {
-            background: rgba(99, 102, 241, 0.05);
-        }
-
-        .search-container {
-            position: relative;
-            margin-bottom: 2rem;
-        }
-
-        .search-container input {
-            width: 100%;
-            padding-right: 3rem;
-        }
-
-        .search-icon {
-            position: absolute;
-            right: 1rem;
-            top: 50%;
-            transform: translateY(-50%);
-            color: var(--secondary);
-        }
-
-        @media (max-width: 768px) {
-            body { padding: 1rem; }
-            .container { padding: 1rem; }
-            .actions { flex-direction: column; }
-            .btn { width: 100%; justify-content: center; }
-        }
-
-        .notification {
-            position: fixed;
-            top: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            padding: 1rem 2rem;
-            border-radius: 10px;
-            color: white;
-            font-weight: bold;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-            z-index: 1000;
-        }
-
-        .success { background: var(--success); }
-        .error { background: var(--danger); }
-        .show { opacity: 1; }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>نظام إدارة الناخبين - أحمد صالح مهدي محمد الشيباني</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/2.4.7/purify.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css" />
+  <script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Tajawal', 'Cairo', sans-serif;
+      background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+      min-height: 100vh;
+      margin: 0;
+      color: #1f2937;
+      overflow-x: hidden;
+    }
+    body.dark-mode {
+      background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+      color: #e5e7eb;
+    }
+    .header {
+      position: sticky;
+      top: 0;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      padding: 1rem;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      z-index: 1000;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    body.dark-mode .header {
+      background: rgba(30, 41, 59, 0.95);
+    }
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 1.5rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.5rem;
+      justify-content: center;
+    }
+    .card {
+      background: #ffffff;
+      border-radius: 50%;
+      width: 280px;
+      height: 280px;
+      padding: 1.5rem;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    .card:hover {
+      transform: scale(1.05);
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.2);
+    }
+    body.dark-mode .card {
+      background: #1e293b;
+    }
+    .card-icon {
+      font-size: 2.5rem;
+      color: #3b82f6;
+      margin-bottom: 0.5rem;
+    }
+    .card-title {
+      font-size: 1.2rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+    .card-content {
+      font-size: 0.9rem;
+      color: #4b5563;
+      max-height: 100px;
+      overflow-y: auto;
+    }
+    body.dark-mode .card-content {
+      color: #d1d5db;
+    }
+    .total-voters {
+      background: #1e3a8a;
+      color: #fff;
+      width: 300px;
+      height: 300px;
+      border-radius: 50%;
+      padding: 2rem;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+    }
+    .bottom-nav {
+      position: fixed;
+      bottom: 1rem;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      border-radius: 2rem;
+      display: flex;
+      padding: 0.5rem 1rem;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      z-index: 1000;
+    }
+    body.dark-mode .bottom-nav {
+      background: rgba(30, 41, 59, 0.95);
+    }
+    .bottom-nav button {
+      background: none;
+      border: none;
+      color: #1e3a8a;
+      font-size: 1rem;
+      padding: 0.5rem 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: color 0.2s ease;
+    }
+    body.dark-mode .bottom-nav button {
+      color: #e5e7eb;
+    }
+    .bottom-nav button:hover {
+      color: #3b82f6;
+    }
+    .modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.8);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+    }
+    .modal.show {
+      display: flex;
+    }
+    .modal-content {
+      background: #ffffff;
+      padding: 1.5rem;
+      border-radius: 1rem;
+      max-width: 90%;
+      width: 500px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+      animation: slideIn 0.3s ease;
+    }
+    body.dark-mode .modal-content {
+      background: #1e293b;
+    }
+    input, select, textarea {
+      padding: 0.75rem;
+      margin: 0.5rem 0;
+      width: 100%;
+      border: 1px solid #d1d5db;
+      border-radius: 0.5rem;
+      font-size: 1rem;
+      transition: border-color 0.2s ease;
+    }
+    input:focus, select:focus, textarea:focus {
+      border-color: #3b82f6;
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+      outline: none;
+    }
+    body.dark-mode input, body.dark-mode select, body.dark-mode textarea {
+      background: #374151;
+      color: #e5e7eb;
+      border-color: #4b5563;
+    }
+    button {
+      padding: 0.75rem 1.5rem;
+      border: none;
+      border-radius: 0.5rem;
+      cursor: pointer;
+      font-size: 1rem;
+      transition: background 0.2s ease, transform 0.2s ease;
+    }
+    button:hover {
+      transform: translateY(-2px);
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.9rem;
+      background: #ffffff;
+      border-radius: 0.5rem;
+      overflow: hidden;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+    body.dark-mode table {
+      background: #1e293b;
+    }
+    th, td {
+      padding: 0.75rem;
+      text-align: right;
+      border-bottom: 1px solid #e5e7eb;
+    }
+    th {
+      background: #f1f5f9;
+      font-weight: 600;
+    }
+    body.dark-mode th {
+      background: #374151;
+    }
+    tr:hover {
+      background: #f3f4f6;
+    }
+    body.dark-mode tr:hover {
+      background: #374151;
+    }
+    #map {
+      height: 400px;
+      border-radius: 0.5rem;
+      display: none;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+    #map.show {
+      display: block;
+    }
+    .notification {
+      position: fixed;
+      top: 1rem;
+      left: 1rem;
+      padding: 0.75rem 1.5rem;
+      border-radius: 0.5rem;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      z-index: 1000;
+      display: none;
+      color: #fff;
+      animation: slideIn 0.3s ease;
+    }
+    .notification.show {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .notification.success {
+      background: #22c55e;
+    }
+    .notification.error {
+      background: #ef4444;
+    }
+    .loading {
+      display: none;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: rgba(0, 0, 0, 0.7);
+      color: #fff;
+      padding: 0.75rem 1.5rem;
+      border-radius: 0.5rem;
+      z-index: 1000;
+      animation: pulse 1.5s infinite;
+    }
+    .whatsapp-btn {
+      background: #25D366;
+      color: #fff;
+      padding: 0.5rem;
+      border-radius: 0.5rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .whatsapp-btn:hover {
+      background: #20b358;
+    }
+    .delete-btn {
+      background: #ef4444;
+      color: #fff;
+      padding: 0.5rem;
+      border-radius: 0.5rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .delete-btn:hover {
+      background: #dc2626;
+    }
+    .form-container iframe {
+      width: 100%;
+      height: 450px;
+      border-radius: 0.5rem;
+      border: 1px solid #1e3a8a;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+    .full-width-card {
+      width: 100%;
+      border-radius: 1rem;
+      background: #ffffff;
+      padding: 1.5rem;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+    }
+    body.dark-mode .full-width-card {
+      background: #1e293b;
+    }
+    @keyframes slideIn {
+      from { transform: translateY(-20px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+    @keyframes pulse {
+      0% { transform: translate(-50%, -50%) scale(1); }
+      50% { transform: translate(-50%, -50%) scale(1.05); }
+      100% { transform: translate(-50%, -50%) scale(1); }
+    }
+    @media (max-width: 768px) {
+      .container {
+        padding: 1rem;
+        flex-direction: column;
+        align-items: center;
+      }
+      .card {
+        width: 240px;
+        height: 240px;
+      }
+      .total-voters {
+        width: 260px;
+        height: 260px;
+      }
+      .form-container iframe {
+        height: 400px;
+      }
+      table {
+        font-size: 0.8rem;
+      }
+      th, td {
+        padding: 0.5rem;
+      }
+      .bottom-nav {
+        width: 90%;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 0.5rem;
+      }
+    }
+    @media (max-width: 320px) {
+      .card {
+        width: 200px;
+        height: 200px;
+      }
+      .total-voters {
+        width: 220px;
+        height: 220px;
+      }
+      .card-title {
+        font-size: 1rem;
+      }
+      .card-content {
+        font-size: 0.8rem;
+      }
+    }
+  </style>
 </head>
 <body>
-    <div id="notification" class="notification"></div>
-    <div class="container">
-        <div class="header">
-            <h1>نظام تسجيل الناخبين</h1>
-            <p>د. اكتفاء الحسناوي</p>
-        </div>
-
-        <form id="voterForm">
-            <div class="form-grid">
-                <div class="form-group">
-                    <label>رقم الناخب</label>
-                    <input type="text" id="voterNumber" required>
-                </div>
-                <div class="form-group">
-                    <label>الاسم الكامل</label>
-                    <input type="text" id="name" required>
-                </div>
-                <div class="form-group">
-                    <label>العمر</label>
-                    <input type="number" id="age" required min="18">
-                </div>
-                <div class="form-group">
-                    <label>المنطقة</label>
-                    <select id="area" required>
-                        <option value="">اختر المنطقة</option>
-                        <option value="شمال">شمال</option>
-                        <option value="جنوب">جنوب</option>
-                        <option value="شرق">شرق</option>
-                        <option value="غرب">غرب</option>
-                        <option value="وسط">وسط</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label>رقم الواتساب</label>
-                    <input type="tel" id="phone" required>
-                </div>
-            </div>
-            <button type="submit" class="btn btn-primary">
-                <i class="fas fa-user-plus"></i>
-                تسجيل ناخب جديد
-            </button>
-        </form>
-
-        <div class="search-container">
-            <i class="fas fa-search search-icon"></i>
-            <input type="text" id="searchInput" placeholder="بحث..." oninput="searchVoters()">
-        </div>
-
-        <div class="actions">
-            <button onclick="exportToExcel()" class="btn btn-primary">
-                <i class="fas fa-file-excel"></i>
-                تصدير إلى Excel
-            </button>
-            <button onclick="printData()" class="btn btn-primary">
-                <i class="fas fa-print"></i>
-                طباعة
-            </button>
-            <button onclick="clearData()" class="btn btn-danger">
-                <i class="fas fa-trash"></i>
-                حذف الكل
-            </button>
-        </div>
-
-        <table id="votersTable">
-            <thead>
-                <tr>
-                    <th onclick="sortTable(0)">رقم الناخب <i class="fas fa-sort"></i></th>
-                    <th onclick="sortTable(1)">الاسم <i class="fas fa-sort"></i></th>
-                    <th onclick="sortTable(2)">العمر <i class="fas fa-sort"></i></th>
-                    <th onclick="sortTable(3)">المنطقة <i class="fas fa-sort"></i></th>
-                    <th onclick="sortTable(4)">رقم الواتساب <i class="fas fa-sort"></i></th>
-                    <th>تواصل</th>
-                    <th>حذف</th>
-                </tr>
-            </thead>
-            <tbody></tbody>
-        </table>
+  <div id="loginContainer" class="modal show">
+    <div class="modal-content">
+      <h2 class="text-xl font-bold text-center mb-4"><i class="fas fa-lock mr-2"></i>تسجيل الدخول</h2>
+      <input id="loginCode" type="password" placeholder="أدخل رمز الدخول" class="mb-4">
+      <button class="bg-blue-600 text-white w-full" onclick="checkLogin()">تسجيل الدخول</button>
     </div>
+  </div>
+  <div class="header">
+    <h1 class="text-2xl font-bold flex items-center gap-2">
+      <i class="fas fa-vote-yea"></i> إدارة الناخبين - أحمد الشيباني
+    </h1>
+    <div class="flex gap-2">
+      <button class="bg-blue-600 text-white px-3 py-1 rounded-lg" onclick="fetchData()"><i class="fas fa-sync-alt mr-2"></i>تحديث</button>
+      <button class="bg-green-600 text-white px-3 py-1 rounded-lg" onclick="openBulkMessageModal()"><i class="fab fa-whatsapp mr-2"></i>رسالة جماعية</button>
+    </div>
+  </div>
+  <div class="container">
+    <div class="total-voters">
+      <h3 class="text-lg font-semibold mb-2"><i class="fas fa-users mr-2"></i>إجمالي الناخبين</h3>
+      <span id="totalVotersCount" class="text-4xl font-bold">0</span>
+    </div>
+    <div class="card">
+      <i class="fas fa-plus-circle card-icon"></i>
+      <h3 class="card-title">إضافة ناخب</h3>
+      <div class="card-content">
+        <button class="bg-blue-600 text-white px-3 py-1 rounded" onclick="openAddVoterModal()">إضافة عبر النموذج</button>
+      </div>
+    </div>
+    <div class="card">
+      <i class="fas fa-search card-icon"></i>
+      <h3 class="card-title">بحث وتصفية</h3>
+      <div class="card-content">
+        <input type="text" id="searchInput" placeholder="ابحث..." class="w-full text-sm">
+        <select id="addressFilter" class="w-full text-sm mt-2">
+          <option value="">جميع المناطق</option>
+        </select>
+      </div>
+    </div>
+    <div class="card">
+      <i class="fas fa-map-marked-alt card-icon"></i>
+      <h3 class="card-title">خريطة الناخبين</h3>
+      <div class="card-content">
+        <button class="bg-blue-600 text-white px-3 py-1 rounded" onclick="toggleMap()">عرض/إخفاء الخريطة</button>
+      </div>
+    </div>
+    <div class="card">
+      <i class="fas fa-exclamation-triangle card-icon"></i>
+      <h3 class="card-title">التكرارات</h3>
+      <div class="card-content">
+        <button class="bg-blue-600 text-white px-3 py-1 rounded" onclick="toggleDuplicatesSection()">عرض/إخفاء</button>
+      </div>
+    </div>
+    <div class="card">
+      <i class="fas fa-bug card-icon"></i>
+      <h3 class="card-title">الأخطاء</h3>
+      <div class="card-content">
+        <button class="bg-blue-600 text-white px-3 py-1 rounded" onclick="toggleInvalidVoterNumbersSection()">عرض/إخفاء</button>
+      </div>
+    </div>
+    <div class="full-width-card">
+      <h3 class="text-xl font-semibold mb-4"><i class="fas fa-users mr-2"></i>بيانات الناخبين</h3>
+      <div class="overflow-x-auto">
+        <table>
+          <thead>
+            <tr>
+              <th>الاسم</th>
+              <th>رقم الناخب</th>
+              <th>رقم الهاتف</th>
+              <th>العنوان</th>
+              <th>الشخص المعرف</th>
+              <th>ملاحظات</th>
+              <th>إجراءات</th>
+            </tr>
+          </thead>
+          <tbody id="votersTable"></tbody>
+        </table>
+      </div>
+      <div class="flex justify-center gap-4 mt-4">
+        <button id="prevPage" class="bg-blue-600 text-white px-3 py-1 rounded disabled:bg-gray-400"><i class="fas fa-chevron-right"></i></button>
+        <button id="nextPage" class="bg-blue-600 text-white px-3 py-1 rounded disabled:bg-gray-400"><i class="fas fa-chevron-left"></i></button>
+      </div>
+    </div>
+    <div class="full-width-card" id="mapContainer">
+      <div id="map"></div>
+    </div>
+    <div class="full-width-card hidden" id="duplicatesSection">
+      <h3 class="text-xl font-semibold mb-4"><i class="fas fa-clone mr-2"></i>التكرارات</h3>
+      <div class="overflow-x-auto">
+        <table>
+          <thead>
+            <tr>
+              <th>النوع</th>
+              <th>القيمة</th>
+              <th>العدد</th>
+              <th>الأسماء</th>
+              <th>إجراءات</th>
+            </tr>
+          </thead>
+          <tbody id="duplicatesTable"></tbody>
+        </table>
+      </div>
+    </div>
+    <div class="full-width-card hidden" id="invalidVoterNumbersSection">
+      <h3 class="text-xl font-semibold mb-4"><i class="fas fa-exclamation-triangle mr-2"></i>أرقام الناخبين الخاطئة</h3>
+      <div class="overflow-x-auto">
+        <table>
+          <thead>
+            <tr>
+              <th>الاسم</th>
+              <th>رقم الناخب</th>
+              <th>إجراءات</th>
+            </tr>
+          </thead>
+          <tbody id="invalidVoterNumbersTable"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  <div class="bottom-nav">
+    <button onclick="toggleDarkMode()"><i class="fas fa-moon"></i> الوضع الليلي</button>
+    <button onclick="openBulkMessageModal()"><i class="fab fa-whatsapp"></i> رسالة جماعية</button>
+    <button onclick="exportToExcel()"><i class="fas fa-file-excel"></i> تصدير Excel</button>
+    <button onclick="logout()"><i class="fas fa-sign-out-alt"></i> تسجيل خروج</button>
+  </div>
+  <div id="addVoterModal" class="modal">
+    <div class="modal-content form-container">
+      <h3 class="text-xl font-semibold mb-4"><i class="fas fa-plus-circle mr-2"></i>إضافة ناخب جديد</h3>
+      <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSc3q6y2F3zP2lFVgjXqj-gV5X0By9AKILxvEoWRNsAZ743oOg/viewform?embedded=true" frameborder="0">جارٍ التحميل...</iframe>
+      <button class="mt-4 bg-gray-500 text-white w-full" onclick="closeAddVoterModal()">إغلاق</button>
+    </div>
+  </div>
+  <div id="editModal" class="modal">
+    <div class="modal-content">
+      <h3 class="text-xl font-semibold mb-4"><i class="fas fa-edit mr-2"></i>تعديل بيانات</h3>
+      <input id="editTimestamp" type="text" readonly>
+      <input id="editName" type="text" placeholder="الاسم">
+      <input id="editPhone" type="text" placeholder="رقم الهاتف (964+)" pattern="\+964[0-9]{9}">
+      <input id="editVoterNumber" type="text" placeholder="رقم الناخب (8 أرقام)" pattern="[0-9]{8}">
+      <input id="editAddress" type="text" placeholder="العنوان">
+      <input id="editIntroducer" type="text" placeholder="الشخص المعرف">
+      <textarea id="editNotes" placeholder="ملاحظات" rows="4"></textarea>
+      <input id="editRow" type="hidden">
+      <div class="flex justify-end gap-2 mt-4">
+        <button class="bg-gray-500 text-white" onclick="closeEditModal()">إلغاء</button>
+        <button class="bg-blue-600 text-white" onclick="confirmSaveEdit()">حفظ</button>
+      </div>
+    </div>
+  </div>
+  <div id="deleteModal" class="modal">
+    <div class="modal-content">
+      <h3 class="text-xl font-semibold mb-4"><i class="fas fa-exclamation-circle mr-2"></i>تأكيد الحذف</h3>
+      <p id="deleteConfirmMessage"></p>
+      <div class="flex justify-end gap-2 mt-4">
+        <button class="bg-gray-500 text-gray-800" onclick="closeDeleteModal()">إلغاء</button>
+        <button class="confirmDeleteBtn bg-red-600 text-white" onclick="confirmDelete()">حذف</button>
+      </div>
+    </div>
+  </div>
+  <div id="bulkMessageModal" class="modal">
+    <div class="modal-content">
+      <h3 class="text-xl font-semibold mb-4"><i class="fab fa-whatsapp mr-2"></i>رسالة جماعية</h3>
+      <select id="bulkMessageFilter" class="mb-4">
+        <option value="">جميع الناخبين</option>
+        <option value="region">حسب المنطقة</option>
+        <option value="notes">حسب الملاحظات</option>
+      </select>
+      <select id="bulkMessageRegion" class="mb-4 hidden">
+        <option value="">اختر المنطقة</option>
+      </select>
+      <select id="bulkMessageNotes" class="mb-4 hidden">
+        <option value="">اختر نوع الملاحظات</option>
+        <option value="غير فارغ">ملاحظات موجودة</option>
+        <option value="فارغ">بدون ملاحظات</option>
+        <option value="مهم">ملاحظات مهمة</option>
+        <option value="عاجل">ملاحظات عاجلة</option>
+      </select>
+      <textarea id="bulkMessageText" class="w-full h-24" placeholder="أدخل نص الرسالة..."></textarea>
+      <div class="flex justify-end gap-2px mt-4">
+        <button class="bg-gray-500 text-white" onclick="closeBulkMessageModal()">إلغاء</button>
+        <button class="bg-green-600 text-white" onclick="sendBulkMessages()">إرسال</button>
+      </div>
+    </div>
+  </div>
+  <div id="notification" class="notification"><i id="notificationIcon" class="mr-2"></i> <span id="notificationMessage"></span></div>
+  <div id="loading" class="loading"><i class="fas fa-spinner fa-spin mr-2"></i>جارٍ التحميل...</div>
+  <script>
+    let votersData = [], filteredData = [], currentPage = 1, rowsPerPage = 5;
+    let map, markers, selectedRow = null;
+    let isLoggedIn = false;
+    let sentMessages = new Set();
+    const baghdadRegions = {
+      'الكرخ': { lat: 33.34, lng: 44.355, color: '#3b82f6' },
+      'الرصافة': { lat: 33.47, lng: 44.305, color: '#1e3a8a' },
+      'المنصور': { lat: 33.178, lng: 44.347, color: '#93c5fd' },
+      'غير محددد': { lat: 33.52, lng: 44.61, color: '#6b7280' }
+    };
 
-    <script src="https://unpkg.com/xlsx/dist/xlsx.full.min.js"></script>
-    <script>
-        let voters = JSON.parse(localStorage.getItem('voters') || '[]');
-        let sortDirection = 1;
+    function checkLogin() {
+      const code = DOMPurify.sanitize(document.getElementById('loginCode').value);
+      if (code === 'hasan') {
+        isLoggedIn = true;
+        document.getElementById('loginContainer').classList.remove('show');
+        fetchData();
+        showNotification('تم تسجيل الدخول! ✅', 'success', 'fas fa-check-circle');
+      } else {
+        showNotification('رمز الدخول غير صحيح! 🚫', 'error', 'fas fa-exclamation-circle');
+      }
+    }
 
-        document.getElementById('voterForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            const voter = {
-                voterNumber: document.getElementById('voterNumber').value,
-                name: document.getElementById('name').value,
-                age: document.getElementById('age').value,
-                area: document.getElementById('area').value,
-                phone: document.getElementById('phone').value
-            };
+    function logout() {
+      if (!isLoggedIn) return;
+      isLoggedIn = false;
+      document.getElementById('loginContainer').classList.add('show');
+      document.getElementById('loginCode').value = '';
+      showNotification('تم تسجيل الخروج! 👋', 'success', 'fas fa-sign-out-alt');
+    }
 
-            if (!validateVoter(voter)) return;
+    function showNotification(msg, type = 'success', icon = 'fas fa-info-circle') {
+      const n = document.getElementById('notification');
+      n.querySelector('#notificationMessage').textContent = msg;
+      n.querySelector('#notificationIcon').classList = `${icon} mr-2`;
+      n.classList = `notification ${type} show`;
+      setTimeout(() => n.classList.remove('show'), 3000);
+    }
 
-            voters.push(voter);
-            localStorage.setItem('voters', JSON.stringify(voters));
-            updateTable();
-            this.reset();
-            showNotification('تم تسجيل الناخب بنجاح', 'success');
+    function toggleDarkMode() {
+      if (!isLoggedIn) return;
+      document.body.classList.toggle('dark-mode');
+      showNotification(document.body.classList.contains('dark-mode') ? 'الوضع الليلي مفعل! 🌙' : 'الوضع النهاري مفعل! ☀️', 'success', 'fas fa-adjust');
+    }
+
+    function toggleMap() {
+      if (!isLoggedIn) return;
+      const mapDiv = document.getElementById('map');
+      mapDiv.classList.toggle('show');
+      if (mapDiv.classList.contains('show') && !map) initMap();
+      showNotification(mapDiv.classList.contains('show') ? 'تم عرض الخريطة! 🗺️' : 'تم إخفاء الخريطة! 🗺️', 'success', 'fas fa-map-marked-alt');
+    }
+
+    function toggleDuplicatesSection() {
+      if (!isLoggedIn) return;
+      const section = document.getElementById('duplicatesSection');
+      section.classList.toggle('hidden');
+      if (!section.classList.contains('hidden')) updateDuplicatesTable();
+      showNotification(section.classList.contains('hidden') ? 'تم إخفاء التكرارات! 📋' : 'تم عرض التكرارات! 📋', 'success', 'fas fa-clone');
+    }
+
+    function toggleInvalidVoterNumbersSection() {
+      if (!isLoggedIn) return;
+      const section = document.getElementById('invalidVoterNumbersSection');
+      section.classList.toggle('hidden');
+      if (!section.classList.contains('hidden')) updateInvalidVoterNumbers();
+      showNotification(section.classList.contains('hidden') ? 'تم إخفاء الأخطاء! 📋' : 'تم عرض الأخطاء! ❌', 'success', 'fas fa-exclamation-triangle');
+    }
+
+    function openAddVoterModal() {
+      if (!isLoggedIn) return;
+      document.getElementById('addVoterModal').classList.add('show');
+      showNotification('تم فتح نموذج الإضافة! 📝', 'success', 'fas fa-plus-circle');
+    }
+
+    function closeAddVoterModal() {
+      document.getElementById('addVoterModal').classList.remove('show');
+    }
+
+    async function openDeleteModal(row, type, value) {
+      if (!isLoggedIn) return;
+      selectedRow = row;
+      document.querySelector('#deleteConfirmMessage').textContent = `هل أتريد حذف ${type}؟: ${value}؟`;
+      document.getElementById('deleteModal').classList.add('show');
+    }
+
+    function closeDeleteModal() {
+      document.getElementById('deleteModal').classList.classList.remove('show');
+      selectedRow = null;
+    }
+
+    async function confirmDelete() {
+      if (!isLoggedIn || !selectedRow) return;
+      document.getElementById('loading').style.display = 'block';
+      try {
+        const data = { action: 'delete', row: selectedRow };
+        const res = await fetch('https://script.google.com/macros/s/AKfycbynRwcUnSk1kLUke5SOnn8ggyFAmCgUai3eZlipzG-N9zkLQsqB726nPg3uI1R8TPeY9/exec', {
+          method: 'POST',
+          body: JSON.stringify(data)
         });
+        const result = await res.json();
+        if (result.error) throw new Error(result.error);
+        showNotification('تم الحذف! ✅', 'success', 'fas fa-trash');
+        closeDeleteModal();
+        fetchData();
+      } catch (e) {
+        showNotification('خطأ في الحذف: ' + e.message + ' 🚫طأ', 'error', 'fas fa-exclamation-circle');
+      }
+      document.getElementById('loading').style.display = 'none';
+      closeDeleteModal();
+    }
 
-        function validateVoter(voter) {
-            if (voters.some(v => v.voterNumber === voter.voterNumber)) {
-                showNotification('رقم الناخب موجود مسبقاً', 'error');
-                return false;
-            }
-            if (voter.age < 18) {
-                showNotification('يجب أن يكون العمر 18 سنة فأكثر', 'error');
-                return false;
-            }
-            if (!/^\d{10}$/.test(voter.phone)) {
-                showNotification('رقم الواتساب يجب أن يكون 10 أرقام', 'error');
-                return false;
-            }
-            return true;
-        }
+    async function fetchData() {
+      if (!isLoggedIn) return;
+      document.getElementById('loading').style.display = 'flex';
+      try {
+        const res = await fetch('https://script.google.com/macros/s/AKfycbynRcwUnS1kLUke5SOnn8ggyFAmCgUai3eZlipzG-N9zkLQsqB726nPg3uI1R8TPeY9/exec', { cache: 'no-store' });
+        const data = await res.json();
+        if (data.error) throw new Error(data.error);
+        votersData = data.slice(1).map((row, i) => ({
+          timestamp: String(row[0] || '').trim(),
+          name: String(row[1] || '').trim(),
+          phone: formatPhoneNumber(String(row[2] || '').trim()),
+          voterNumber: String(row[3] || '').trim(),
+          address: String(row[4] || 'غير محدد').trim(),
+          introducer: String(row[5] || '').trim(),
+          notes: String(row[6] || '').trim(),
+          row: i + 2
+        }));
+        filteredData = [...votersData];
+        updateTotalVoters();
+        populateTable();
+        populateFilters();
+        updateDuplicatesTable();
+        updateInvalidVotersNumbers();
+        showNotification('تم جلب البيانات! ✅', 'success', 'فاص fa-check-circle');
+      } catch (e) {
+        showNotification('خطأ في جلب البيانات! 😒🚫: ' + e.message1, 'error', 'fas fa-exclamation-circle');
+      }
+      document.getElementById('loading').style.display = 'none';
+    }
 
-        function updateTable() {
-            const tbody = document.querySelector('#votersTable tbody');
-            tbody.innerHTML = '';
-            voters.forEach((voter, index) => {
-                const row = tbody.insertRow();
-                Object.values(voter).forEach(text => {
-                    const cell = row.insertCell();
-                    cell.textContent = text;
-                });
-                const whatsappCell = row.insertCell();
-                whatsappCell.innerHTML = `<a href="https://wa.me/${voter.phone}" target="_blank" class="btn btn-whatsapp">
-                    <i class="fab fa-whatsapp"></i>
-                </a>`;
-                const deleteCell = row.insertCell();
-                deleteCell.innerHTML = `<button onclick="deleteVoter(${index})" class="btn btn-danger">
-                    <i class="fas fa-trash"></i>
-                </button>`;
+    function formatPhoneNumber(phone) {
+      if (!phone) return '';
+      const clean = phone.replace(/[^\d]/g, '');
+      return clean.length === 10 ? `+964${clean}` : phone;
+    }
+
+    function normalizePhoneForWhats(phone) {
+      if (!phone) return '';
+      const clean = phone.replace(/[^\d]/g, '');
+      return clean.startsWith('964') ? clean : `964${clean}`;
+    }
+
+    function updateTotalVoters() {
+      document.getElementById('totalVotersCount').textContent = filteredData.length;
+    }
+
+    function populateTable() {
+      const table = document.getElementById('votersTable');
+      table.innerHTML = '';
+      const start = (currentPage - 1) * rowsPerPage;
+      const end = start + rowsPerPage;
+      filteredData.slice(start, end).forEach(v => {
+        const maskedPhone = v.phone.length > 4 ? v.phone.slice(0, -4) + '****' : v.phone;
+        const whatsappNumber = normalizePhoneForWhats(v.phone);
+        table.innerHTML += `
+          <tr>
+            <td>${DOMPurify.sanitize(v.name)}</td>
+            <td>${sanitize(v.voterNumber)}</td>
+            <td>${sanitize(maskedPhone)}</td>
+            <td>${sanitize(v.address)}</td>
+            <td>${sanitize(v.introducer)}</td>
+            <td>${sanitize(v.notes)}</td>
+            <td>
+              <button class="bg-blue-500 text-white px-2 py-1 rounded" onclick="openEditModal(${v.row}, '${sanitize(v.timestamp)}', '${sanitize(v.name)}', '${sanitize(v.phone)}', '${sanitize(v.voterNumber)}', '${sanitize(v.address)}', '${sanitize(v.introducer)}', '${sanitize(v.notes)}')"><i class="fas fa-edit"></i></button>
+              <a href="https://wa.me/${whatsappNumber}?text=مرحباً ${sanitize(v.name)}، بخصوص الانتخابات..." target="_blank" class="whatsapp-btn ml-2"><i class="fab fa-whatsapp"></i></a>
+              <button class="delete-btn ml-2" onclick="openDeleteModal(${v.row}, 'سجل الناخب', '${sanitize(v.name)}')"><i class="fas fa-trash"></i></button>
+            </td>
+          </tr>`;
+      });
+      document.getElementById('prevPage').disabled = true;
+      document.getElementById('nextPage').disabled = end >= filteredData.length;
+    }
+
+    function populateFilters() {
+      const regions = [...new Set(votersData.map(v => v.address.split(/[,;]/)[0].trim() || 'غير محدد'))];
+      const filter = document.getElementById('addressFilter');
+      const bulkRegionFilter = document.getElementById('bulkMessageRegion');
+      filter.innerHTML = '<option value="">جميع المناطق</option>' + regions.map(r => `<option value="${sanitize(r)}">${sanitize(r)}</option>`).join('');
+      bulkRegionFilter.innerHTML = '<option value="">اختر المنطقة</option>' + regions.map(r => `<option value="${sanitize(r)}">${sanitize(r)}</option>`).join('');
+    }
+
+    function updateDuplicatesTable() {
+      const duplicatesTable = document.getElementById('duplicatesTable');
+      duplicatesTable.innerHTML = '';
+      const duplicates = {};
+      ['voterNumber', 'phone', 'name'].forEach(field => {
+        const counts = {};
+        votersData.forEach(v => {
+          const value = v[field];
+          if (value) counts[value] = (counts[value] || []).push(v);
+        });
+        Object.entries(counts).forEach(([key, voters]) => {
+          if (voters.length > 1) {
+            duplicates.push({
+              type: field === 'voterNumber' ? 'رقم الناخب' : field === 'phone' ? 'رقم الهاتف' : 'الاسم',
+              value: key,
+              count: voters.length,
+              voters
             });
-        }
+          }
+        });
+      });
+      duplicates.forEach(d => {
+        const names = d.voters.map(v => sanitize(v.name)).join(', ');
+        const actions = d.voters.map(v => {
+          const whatsappNumber = normalizePhoneForWhats(v.phone);
+          return `
+            <button class="delete-btn" onclick="openDeleteModal(${v.row}, '${sanitize(d.type)}', '${sanitize(d.value)}')"><i class="fas fa-trash"></i></button>
+            <a href="https://wa.me/${whatsappNumber}?text=مرحباً ${sanitize(v.name)}، ${sanitize(d.type)} (${sanitize(d.value)}) متكرر، يرجى التواصل للتصحيح." target="_blank" class="whatsapp-btn ml-2"><i class="fab fa-whatsapp"></i></a>
+          `;
+        }).join(' ');
+        duplicatesTable.innerHTML += `
+          <tr>
+            <td>${sanitize(d.type)}</td>
+            <td>${sanitize(d.value)}</td>
+            <td>${d.count}</td>
+            <td>${names}</td>
+            <td>${actions}</td>
+          </tr>`;
+      });
+      if (duplicates.length === 0) {
+        duplicatesTable.innerHTML = '<tr><td colspan="5" class="text-center">لا توجد تكرارات</td></tr>';
+      } else {
+        showNotification(`تم العثور على ${duplicates.length} تكرارات!`, 'success', 'fas fa-clone');
+      }
+    }
 
-        function deleteVoter(index) {
-            if (!confirm('هل أنت متأكد من حذف هذا الناخب؟')) return;
-            voters.splice(index, 1);
-            localStorage.setItem('voters', JSON.stringify(voters));
-            updateTable();
-            showNotification('تم حذف الناخب بنجاح', 'success');
-        }
+    function updateInvalidVotersNumbers() {
+      const invalidTable = document.getElementById('invalidVoterNumbersTable');
+      invalidTable.innerHTML = '';
+      const invalidVoters = votersData.filter(v => v.voterNumber && v.voterNumber.replace(/[^\d]/g, '').length !== 8);
+      invalidVoters.forEach(v => {
+        const whatsappNumber = normalizePhoneForWhats(v.phone);
+        invalidTable.innerHTML += `
+          <tr>
+            <td>${sanitize(v.name)}</td>
+            <td>${sanitize(v.voterNumber)}</td>
+            <td>
+              <button class="bg-blue-500 text-white px-2 py-1 rounded" onclick="openEditModal(${v.row}, '${sanitize(v.timestamp)}', '${sanitize(v.name)}', '${sanitize(v.phone)}', '${sanitize(v.voterNumber)}', '${sanitize(v.address)}', '${sanitize(v.introducer)}', '${sanitize(v.notes)}')"><i class="fas fa-edit"></i></button>
+              <a href="https://wa.me/${whatsappNumber}?text=مرحباً ${sanitize(v.name)}، رقم الناخب (${sanitize(v.voterNumber)}) غير صحيح، يرجى التحقق." target="_blank" class="whatsapp-btn ml-2"><i class="fab fa-whatsapp"></i></a>
+            </td>
+          </tr>`;
+      });
+      if (invalidVoters.length === 0) {
+        invalidTable.innerHTML = '<tr><td colspan="3" class="text-center">لا توجد أرقام خاطئة</td></tr>';
+      }
+    }
 
-        function searchVoters() {
-            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
-            const filtered = voters.filter(voter => 
-                Object.values(voter).some(value => 
-                    value.toString().toLowerCase().includes(searchTerm)
-                )
-            );
-            updateTableWithData(filtered);
-        }
+    function initMap() {
+      map = L.map('map').setView([33.3152, 44.3661], 11);
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { attribution: '© OpenStreetMap' }).addTo(map);
+      markers = L.markerClusterGroup();
+      filteredData.forEach(v => {
+        const region = v.address.split(/[,;]/)[0].trim() || 'غير محدد';
+        const coords = baghdadRegions[region] || baghdadRegions['غير محدد'];
+        const lat = coords.lat + (Math.random() - 0.5) * 0.02;
+        const lng = coords.lng + (Math.random() - 0.5) * 0.02;
+        markers.addLayer(L.circleMarker([lat, lng], {
+          radius: 8,
+          fillColor: coords.color,
+          color: '#000',
+          weight: 1,
+          fillOpacity: 0.8
+        }).bindPopup(`<b>${sanitize(v.name)}</b><br>المنطقة: ${sanitize(region)}<br>الشخص المعرف: ${sanitize(v.introducer)}`));
+      });
+      map.addLayer(markers);
+    }
 
-        function sortTable(columnIndex) {
-            sortDirection *= -1;
-            voters.sort((a, b) => {
-                const values = Object.values(a);
-                const valueA = values[columnIndex].toString().toLowerCase();
-                const valueB = Object.values(b)[columnIndex].toString().toLowerCase();
-                return valueA.localeCompare(valueB) * sortDirection;
-            });
-            updateTable();
-        }
+    function filterTable() {
+      const search = sanitize(document.getElementById('searchInput').value.toLowerCase());
+      const region = sanitize(document.getElementById('addressFilter').value);
+      filteredData = votersData.filter(v => {
+        const r = v.address.split(/[,;]/)[0].trim() || 'غير محدد';
+        return (
+          (v.name.toLowerCase().includes(search) || v.voterNumber.includes(search) || v.introducer.toLowerCase().includes(search)) &&
+          (region === '' || r === region)
+        );
+      });
+      currentPage = 1;
+      updateTotalVoters();
+      populateTable();
+      if (map) initMap();
+    }
 
-        function exportToExcel() {
-            if (voters.length === 0) {
-                showNotification('لا توجد بيانات للتصدير', 'error');
-                return;
-            }
-            const wb = XLSX.utils.book_new();
-            const ws = XLSX.utils.json_to_sheet(voters);
-            XLSX.utils.book_append_sheet(wb, ws, "Voters");
-            XLSX.writeFile(wb, "قائمة_الناخبين.xlsx");
-            showNotification('تم تصدير البيانات بنجاح', 'success');
-        }
+    function openBulkMessageModal() {
+      if (!isLoggedIn) return;
+      document.getElementById('bulkMessageModal').classList.add('show');
+      updateBulkMessageFilter();
+      showNotification('تم فتح نافذة الرسائل الجماعية!', 'success', 'fab fa-whatsapp');
+    }
 
-        function printData() {
-            window.print();
-        }
+    function closeBulkMessageModal() {
+      document.getElementById('bulkMessageModal').classList.remove('show');
+    }
 
-        function clearData() {
-            if (!confirm('هل أنت متأكد من حذف جميع البيانات؟')) return;
-            voters = [];
-            localStorage.removeItem('voters');
-            updateTable();
-            showNotification('تم حذف جميع البيانات', 'success');
-        }
+    function updateBulkMessageFilter() {
+      const filter = document.getElementById('bulkMessageFilter').value;
+      document.getElementById('bulkMessageRegion').classList.toggle('hidden', filter !== 'region');
+      document.getElementById('bulkMessageNotes').classList.toggle('hidden', filter !== 'notes');
+    }
 
-        function showNotification(message, type) {
-            const notification = document.getElementById('notification');
-            notification.textContent = message;
-            notification.className = `notification ${type} show`;
-            setTimeout(() => {
-                notification.classList.remove('show');
-            }, 3000);
-        }
+    function sendBulkMessages() {
+      if (!isLoggedIn) return;
+      const filter = sanitize(document.getElementById('bulkMessageFilter').value);
+      const region = sanitize(document.getElementById('bulkMessageRegion').value);
+      const notes = sanitize(document.getElementById('bulkMessageNotes').value);
+      const message = sanitize(document.getElementById('bulkMessageText').value);
+      if (!message) {
+        showNotification('أدخل نص الرسالة!', 'error', 'fas fa-exclamation-circle');
+        return;
+      }
+      let recipients = [...votersData];
+      if (filter === 'region' && region) {
+        recipients = recipients.filter(v => (v.address.split(/[,;]/)[0].trim() || 'غير محدد') === region);
+      } else if (filter === 'notes') {
+        recipients = recipients.filter(v => {
+          return (
+            (notes === 'غير فارغ' && v.notes.trim() !== '') ||
+            (notes === 'فارغ' && v.notes.trim() === '') ||
+            (notes === 'مهم' && v.notes.toLowerCase().includes('مهم')) ||
+            (notes === 'عاجل' && v.notes.toLowerCase().includes('عاجل'))
+          );
+        });
+      }
+      recipients.forEach(v => {
+        const whatsappNumber = normalizePhoneForWhats(v.phone);
+        const url = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
+        window.open(url, '_blank');
+      });
+      showNotification(`تم إرسال الرسائل إلى ${recipients.length} ناخب!`, 'success', 'fab fa-whatsapp');
+      closeBulkMessageModal();
+    }
 
-        updateTable();
-    </script>
+    function exportToExcel() {
+      if (!isLoggedIn) return;
+      const headers = ['طابع زمني', 'الاسم', 'رقم الهاتف', 'رقم الناخب', 'العنوان', 'الشخص المعرف', 'ملاحظات'];
+      const data = votersData.map(v => [
+        v.timestamp,
+        v.name,
+        v.phone,
+        v.voterNumber,
+        v.address,
+        v.introducer,
+        v.notes
+      ]);
+      const ws = XLSX.utils.aoa_to_sheet([headers, ...data]);
+      const wb = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(wb, ws, 'الناخبين');
+      XLSX.write(wb, `voters_${new Date().toISOString().slice(0, 10)}.xlsx`);
+      showNotification('تم تصدير البيانات إلى Excel!', 'success', 'fas fa-file-excel');
+    }
+
+    function openEditModal(row, timestamp, name, phone, voterNumber, address, introducer, notes) {
+      if (!isLoggedIn) return;
+      document.getElementById('editRow').value = row;
+      document.getElementById('editTimestamp').value = sanitize(timestamp);
+      document.getElementById('editName').value = sanitize(name);
+      document.getElementById('editPhone').value = sanitize(phone);
+      document.getElementById('editVoterNumber').value = sanitize(voterNumber);
+      document.getElementById('editAddress').value = sanitize(address);
+      document.getElementById('editIntroducer').value = sanitize(introducer);
+      document.getElementById('editNotes').value = sanitize(notes);
+      document.getElementById('editModal').classList.add('show');
+    }
+
+    function closeEditModal() {
+      document.getElementById('editModal').classList.remove('show');
+    }
+
+    async function confirmSaveEdit() {
+      if (!isLoggedIn) return;
+      document.getElementById('loading').style.display = 'block';
+      try {
+        const phone = formatPhoneNumber(sanitize(document.getElementById('editPhone').value.trim()));
+        if (phone && !phone.match(/^\+964[0-9]{9}$/)) throw new Error('رقم هاتف غير صالح! يجب أن يبدأ بـ +964 ويتبعه 9 أرقام.');
+        const voterNumber = sanitize(document.getElementById('editVoterNumber').value.trim());
+        if (voterNumber && voterNumber.replace(/[^\d]/g, '').length !== 8) throw new Error('رقم الناخب يجب أن يكون 8 أرقام!');
+        const row = parseInt(document.getElementById('editRow').value);
+        if (voterNumber && votersData.some(v => v.voterNumber === voterNumber && v.row !== row)) {
+          throw new Error('رقم الناخب متكرر!');
+        }
+        if (phone && votersData.some(v => v.phone === phone && v.row !== row)) {
+          throw new Error('رقم الهاتف متكرر!');
+        }
+        const data = {
+          action: 'edit',
+          row,
+          timestamp: sanitize(document.getElementById('editTimestamp').value),
+          name: sanitize(document.getElementById('editName').value),
+          phone,
+          voterNumber,
+          address: sanitize(document.getElementById('editAddress').value),
+          introducer: sanitize(document.getElementById('editIntroducer').value),
+          notes: sanitize(document.getElementById('editNotes').value)
+        };
+        const res = await fetch('https://script.google.com/macros/s/AKfycbynRcwUnS1kLUke5SOnn8ggyFAmCgUai3eZlipzG-N9zkLQsqB726nPg3uI1R8TPeY9/exec', {
+          method: 'POST',
+          body: JSON.stringify(data)
+        });
+        const result = await res.json();
+        if (result.error) throw new Error(result.error);
+        showNotification('تم حفظ التعديلات! ✅', 'success', 'fas fa-check-circle');
+        closeEditModal();
+        fetchData();
+      } catch (e) {
+        showNotification('خطأ في التعديل: ' + e.message + ' 🚫', 'error', 'fas fa-exclamation-circle');
+      }
+      document.getElementById('loading').style.display = 'none';
+    }
+
+    document.getElementById('searchInput').addEventListener('input', debounce(filterTable, 300));
+    document.getElementById('addressFilter').addEventListener('change', filterTable);
+    document.getElementById('bulkMessageFilter').addEventListener('change', updateBulkMessageFilter);
+    document.getElementById('prevPage').addEventListener('click', () => { if (currentPage > 1) { currentPage--; populateTable(); } });
+    document.getElementById('nextPage').addEventListener('click', () => { if (currentPage * rowsPerPage < filteredData.length) { currentPage++; populateTable(); } });
+
+    function debounce(func, wait) {
+      let timeout;
+      return function executedFunction(...args) {
+        const later = () => {
+          clearTimeout(timeout);
+          func(...args);
+        };
+        clearTimeout(timeout);
+        timeout = setTimeout(later, wait);
+      };
+    }
+
+    function sanitize(text) {
+      return DOMPurify.sanitize(text);
+    }
+  </script>
 </body>
 </html>
